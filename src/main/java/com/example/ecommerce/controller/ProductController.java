@@ -3,8 +3,10 @@ package com.example.ecommerce.controller;
 
 import com.example.ecommerce.model.entity.Product;
 import com.example.ecommerce.model.exception.ProductBadRequestException;
+import com.example.ecommerce.model.exception.ProductNotFoundException;
 import com.example.ecommerce.model.repository.ProductRepository;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +39,15 @@ public class ProductController {
             return productRepository.search();
         } catch (DataIntegrityViolationException e) {
             throw new ProductBadRequestException();
+        }
+    }
+
+    @GetMapping("/{id}")
+    public Product getProductById(@PathVariable int id) {
+        try {
+            return productRepository.search(id);
+        } catch (EmptyResultDataAccessException e){
+            throw new ProductNotFoundException();
         }
     }
 }
