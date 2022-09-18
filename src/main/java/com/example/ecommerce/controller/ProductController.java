@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -24,6 +26,15 @@ public class ProductController {
     public Product create(@RequestBody Product product) throws Exception {
         try {
             return productRepository.create(product);
+        } catch (DataIntegrityViolationException e) {
+            throw new ProductBadRequestException();
+        }
+    }
+
+    @GetMapping
+    public List<Product> getProducts() {
+        try {
+            return productRepository.search();
         } catch (DataIntegrityViolationException e) {
             throw new ProductBadRequestException();
         }
