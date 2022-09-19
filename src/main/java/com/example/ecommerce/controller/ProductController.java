@@ -46,8 +46,20 @@ public class ProductController {
     public Product getProductById(@PathVariable int id) {
         try {
             return productRepository.search(id);
-        } catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             throw new ProductNotFoundException();
         }
     }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    public void updateProductById(@PathVariable int id, @RequestBody Product product) {
+        try {
+            product.setId(id);
+            productRepository.update(product);
+        } catch (DataIntegrityViolationException e) {
+            throw new ProductBadRequestException();
+        }
+    }
+
 }

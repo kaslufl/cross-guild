@@ -53,7 +53,7 @@ public class ProductRepository {
 
     public Product update(Product product) {
         int update = jdbcTemplate.update(
-                "update products set nome = ?, price = ?, photo_url = ? where id = ?",
+                "update products set name = ?, price = ?, photo_url = ? where id = ?",
                 product.getName(),
                 product.getPrice(),
                 product.getPhotoUrl(),
