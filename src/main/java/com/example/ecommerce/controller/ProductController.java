@@ -62,4 +62,9 @@ public class ProductController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProductById(@PathVariable int id) {
+        productRepository.delete(id);
+    }
 }
